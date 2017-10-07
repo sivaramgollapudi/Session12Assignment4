@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Session12Assignment4</string>
+    <string name="person_name">Name</string>
+    <string name="person_contact_number">Contact Number</string>
+    <string name="person_date_of_birth">Date Of Birth</string>
+    <string name="save_person_details">Save</string>
+    <string name="cancel_person_details">Cancel</string>
+</resources>

@@ -21,9 +21,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Create Objects of ListView, PersonsInfo List Array, Custom List Adapter
     ListView personDetailsListView;
     List<PersonInfo> personsInfoList = new ArrayList();
     CustomListAdapter customListAdapter;
+
+    // Create Alert Dialog.
     AlertDialog dialog;
 
     @Override
@@ -31,20 +34,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Type Cast ListView to Java Object
         personDetailsListView = (ListView)findViewById(R.id.personDetailsListView);
-        //personsInfoList = new ArrayList();
 
-        //for(int i=1;i<=10;i++){
-        //    personsInfoList.add(new PersonInfo("Name" + i ,"Contact Number " + i,new Date().toString()));
-        //}
 
+        // Initialize Custom List Adapter, along with person Info Collection Object.
         customListAdapter = new CustomListAdapter(getApplicationContext(), personsInfoList);
+
+        // Set Adapter to Custom List
         personDetailsListView.setAdapter(customListAdapter);
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Add Menu Item To Options Menu
         menu.add("Add");
         return super.onCreateOptionsMenu(menu);
 
@@ -52,15 +56,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        // On Click of Add Menu Items. Initialize Alert Dialog
+        // which consits of Custom Layout as View.
         dialog = new AlertDialog.Builder(MainActivity.this).setView(R.layout.add_new_person).create();
 
+        // Set Alert Dialog Title.
         dialog.setTitle("Enter the Details");
+
+        // Show Alert Dialog
         dialog.show();
 
+        // Type Cast Buttons of Save and Cancel which are available in Custom View, which shows in Alert Dialog.
         Button dialogSaveButton = (Button)dialog.findViewById(R.id.saveButton);
         Button dialogCancelButton = (Button) dialog.findViewById(R.id.cancelButton);
 
-
+        // SEt On Click Listener For Save Button which is in Alert Dialog
         dialogSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Set On Click Listener For Cance Button
         dialogCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,10 +91,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void savePersonDetailsAndUpdateList(){
+
+        // Type Cast Edit Text Views to Java OBject, which are available in Alert Dialog Layout.
         EditText nameEditText = (EditText) dialog.findViewById(R.id.nameEditText);
         EditText contactNumberEditText = (EditText) dialog.findViewById(R.id.contactNumberEditText);
         EditText dateOfBirthEditText = (EditText) dialog.findViewById(R.id.dateOfBirthEditText);
 
+        // Validate Entry
         String validationFailed = "";
         if (nameEditText.getText().toString().isEmpty())
             validationFailed = "Name filed can't be empty \n";
@@ -97,14 +112,21 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, validationFailed, Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // Add New Value to Person List Collection Object.
         personsInfoList.add(new PersonInfo(nameEditText.getText().toString(),
                                             contactNumberEditText.getText().toString(),
                                             dateOfBirthEditText.getText().toString()));
 
+
+        // Notify Custom Adapter Update. Which will refresh the screen
         customListAdapter.notifyDataSetChanged();
 
+        // Close Alert Dialog upon successful creation
         dialog.dismiss();
 
+
+        // Show Toast of newly added item and refresh screen.
         Toast.makeText(this, nameEditText.getText().toString() + " " +
                              contactNumberEditText.getText().toString() + " " +
                              dateOfBirthEditText.getText().toString(), Toast.LENGTH_SHORT).show();

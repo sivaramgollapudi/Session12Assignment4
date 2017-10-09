@@ -14,14 +14,17 @@ import java.util.List;
 
 public class CustomListAdapter extends BaseAdapter {
 
+    // Declare App Context and PersonInfo List Collection Object
     Context context;
     List<PersonInfo> personInfoList;
 
+    // Constructor
     public CustomListAdapter(Context context, List<PersonInfo> personInfoList) {
         this.context = context;
         this.personInfoList = personInfoList;
     }
 
+    // Override methods from Base Adapter
     @Override
     public int getCount() {
         return personInfoList.size();
@@ -37,17 +40,23 @@ public class CustomListAdapter extends BaseAdapter {
         return position;
     }
 
+    // Display View
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
+        // Inflate Custom Layout
         View customPersonInfoView= View.inflate(context,R.layout.person_details,null);
+
+        // Find TextView By Inflated Layout and Typecast the objects to access
         TextView nameTextView = (TextView)customPersonInfoView.findViewById(R.id.nameTextView);
         TextView contactNumberTextView = (TextView) customPersonInfoView.findViewById(R.id.contactNumberTextView);
         TextView dateOfBirthTextView = (TextView) customPersonInfoView.findViewById(R.id.dateOfBirthTextView);
 
+        // Assign Data To Type Casted Text Views from person Info Colleciton Object Position
         nameTextView.setText(personInfoList.get(position).getName());
         contactNumberTextView.setText(personInfoList.get(position).getContactNumber());
         dateOfBirthTextView.setText(personInfoList.get(position).getDateOfBirth());
 
+        // Return Custom Layout
         return customPersonInfoView;
     }
 }
